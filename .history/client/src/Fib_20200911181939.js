@@ -1,0 +1,67 @@
+import React, { Component } from 'react'
+import axios from 'axios'
+
+
+class Fib extends Component {
+    state = { 
+        seenIndexes : [],
+        values : {},
+        index : "" 
+    
+    }
+
+    componentDidMount(){
+        this.fetchIndexes();
+        this.fetchValues();
+    }
+
+    async fetchValues(){
+        const values = await axios.get("/api/values/current")
+        this.setState({values:values.data})
+    }
+
+    async fetchIndexes(){
+        const seenIndexes=await axios.get("/api/values/all")
+        setState({seenIndexes:seenIndexes.data})
+    }
+
+    renderSeenIndexes(){
+        return this.state.seenIndexes.map(({number}) =>number).join(", ")
+    }
+
+    renderCalculatedValues(){
+        const calcValues=[]
+
+        for(let i in this.state.values.keys){
+            calcValues.push(
+                <div key={i}>
+                    For index {i} we calculated value {this.state.values[i]}
+                </div>
+            )
+        }
+
+        return calcValues
+    }
+
+    render(){
+        <div>
+            <form>
+            <label>Enter your index:</label>
+            <input value={this.state.index} onChange={(event)=>{this.setState({index:event.target.value})}}></input>
+            <button>Submit</button>
+            </form>
+
+            <h3>Index I have seen</h3>
+            {this.renderSeenIndexes()}
+
+            <h3>Calculated values</h3>
+            {this.renderCalculatedValues()}
+
+        </div>
+    }
+
+    }
+
+export default Fib
+
+    

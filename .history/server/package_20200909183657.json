@@ -1,0 +1,9 @@
+{
+    "dependencies": {
+
+    },
+    "scripts": {
+        "dev":"nodemon",
+        "start":"node index.js"
+    }
+}
